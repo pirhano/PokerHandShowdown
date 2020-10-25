@@ -53,5 +53,5 @@ Create a sample unit test for the library.
 7. Check of winners.
 8. Return Winners.
 
-![Action Diagram \{different from final implementation\}](PokerHandShowdown/Basic Activity Diagram.vpd.png)
+![Action Diagram](/activity-diagram.png)
 

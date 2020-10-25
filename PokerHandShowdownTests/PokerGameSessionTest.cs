@@ -7,10 +7,9 @@ using Xunit;
 
 namespace PokerHandShowdownTests
 {
-    public class PokerGameSessionTest
+    public class PokerGameSessionTest : GameSessionCommun
     {
         private List<Card> _tokenCards;
-        PokerGameSession _pokerGameSession = new PokerGameSession();
 
         public PokerGameSessionTest()
         {
@@ -251,44 +250,8 @@ namespace PokerHandShowdownTests
             act.Should().Throw<InvalidOperationException>().WithMessage("Invalid Player's Name");
         }
 
-        private void ProcessGameSession_Success_Flush_Data()
-        {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Diamond,PokerRank.Four),
-                    new Card(PokerSuit.Spades,PokerRank.Four),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Spades,PokerRank.Ace),
-                    new Card(PokerSuit.Spades,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
-        }
-
         [Fact]
-        public void ProcessGameSession_Success_Flush_GameClass()
+        public void ProcessGameSession_Success_Flush()
         {
             ProcessGameSession_Success_Flush_Data();
 
@@ -298,398 +261,92 @@ namespace PokerHandShowdownTests
         }
 
         [Fact]
-        public void ProcessGameSession_Success_Flush_OpsClass()
-        {
-            ProcessGameSession_Success_Flush_Data();
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
-
-            winners.First().Should().Be("amber");
-        }
-
-        [Fact]
-        public void ProcessGameSession_Success_Flush_Score_GameClass()
+        public void ProcessGameSession_Success_Flush_Score()
         {
             ProcessGameSession_Success_Flush_Score_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.First().Should().Be("amber");
-        }
-
-        [Fact]
-        public void ProcessGameSession_Success_Flush_Score_OpsClass()
-        {
-            ProcessGameSession_Success_Flush_Score_Data();
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
-
-            winners.First().Should().Be("amber");
-        }
-
-        private void ProcessGameSession_Success_Flush_Score_Data()
-        {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Diamond,PokerRank.Four),
-                    new Card(PokerSuit.Spades,PokerRank.Four),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Spades,PokerRank.Ace),
-                    new Card(PokerSuit.Spades,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Heart,PokerRank.Jack),
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Nine),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
         }
 
         [Fact]
         public void ProcessGameSession_Success_Flush_Tie()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                    new Card(PokerSuit.Club,PokerRank.Ten),
-                    new Card(PokerSuit.Club,PokerRank.King),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Spades,PokerRank.Ace),
-                    new Card(PokerSuit.Spades,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Heart,PokerRank.Jack),
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Nine),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_Flush_Tie_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(2);
             _pokerGameSession.Winners.Should().Contain("amber");
             _pokerGameSession.Winners.Should().Contain("hicham");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
-
         }
 
         [Fact]
         public void ProcessGameSession_Success_ThreeOfKind()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Diamond,PokerRank.Four),
-                    new Card(PokerSuit.Spades,PokerRank.Four),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_ThreeOfKind_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("hicham");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
         }
 
         [Fact]
         public void ProcessGameSession_Success_ThreeOfKind_Score()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Diamond,PokerRank.Four),
-                    new Card(PokerSuit.Spades,PokerRank.Four),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_ThreeOfKind_Score_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("kid");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
         }
 
         [Fact]
         public void ProcessGameSession_Success_Pair()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Diamond,PokerRank.Four),
-                    new Card(PokerSuit.Spades,PokerRank.Nine),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_Pair_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("kid");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
         }
 
         [Fact]
         public void ProcessGameSession_Success_Pair_Score()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Diamond,PokerRank.Eight),
-                    new Card(PokerSuit.Spades,PokerRank.Nine),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Eight),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_Pair_Score_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("hicham");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
-
         }
 
         [Fact]
         public void ProcessGameSession_Success_Score()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Diamond,PokerRank.Five),
-                    new Card(PokerSuit.Spades,PokerRank.Nine),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Eight),
-                    new Card(PokerSuit.Club,PokerRank.Four),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_Score_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("amber");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
         }
 
         [Fact]
         public void ProcessGameSession_Success_Score_Tie()
         {
-            _pokerGameSession.AddPlayer("hicham");
-            _pokerGameSession.AddPlayer("amber");
-
-            _pokerGameSession.DispatchCardsToPlayer("hicham", new Card(PokerSuit.Club, PokerRank.Ace));
-            _pokerGameSession.DispatchCardsToPlayer("hicham",
-                new Card[]
-                {
-                    new Card(PokerSuit.Heart,PokerRank.Eight),
-                    new Card(PokerSuit.Diamond,PokerRank.Five),
-                    new Card(PokerSuit.Spades,PokerRank.Nine),
-                    new Card(PokerSuit.Club,PokerRank.Jack),
-                });
-            _pokerGameSession.DispatchCardsToPlayer("amber",
-                new Card[]
-                {
-                    new Card(PokerSuit.Spades,PokerRank.Jack),
-                    new Card(PokerSuit.Spades,PokerRank.Ten),
-                    new Card(PokerSuit.Spades,PokerRank.King),
-                    new Card(PokerSuit.Diamond,PokerRank.Ace),
-                    new Card(PokerSuit.Club,PokerRank.Seven),
-                });
-            _pokerGameSession.AddPlayer("kid",
-                new Card[]
-                {
-                    new Card(PokerSuit.Diamond,PokerRank.Jack),
-                    new Card(PokerSuit.Heart,PokerRank.Ten),
-                    new Card(PokerSuit.Club,PokerRank.King),
-                    new Card(PokerSuit.Heart,PokerRank.Ace),
-                    new Card(PokerSuit.Heart,PokerRank.Seven),
-                });
-
-            _pokerGameSession.PreparePlayersHands();
+            ProcessGameSession_Success_Score_Tie_Data();
 
             _pokerGameSession.DetermineTheWinner();
 
             _pokerGameSession.Winners.Count().Should().Be(2);
             _pokerGameSession.Winners.Should().Contain("amber");
             _pokerGameSession.Winners.Should().Contain("kid");
-
-            var winners = PokerOperations.DefineTheWinners(_pokerGameSession.Players);
-
-            winners.Count().Should().Be(2);
-            winners.Should().Contain("amber");
-            winners.Should().Contain("kid");
-
-        }
-
-        [Fact]
-        public void DefineTheWinners_ReturnNoWinner_NullList()
-        {
-            PokerOperations.DefineTheWinners(null).Should().BeEmpty();
-        }
-
-        [Fact]
-        public void DefineTheWinners_ReturnNoWinner_EmptyList()
-        {
-            PokerOperations.DefineTheWinners(new Dictionary<string, Player>()).Should().BeEmpty();
         }
     }
 }

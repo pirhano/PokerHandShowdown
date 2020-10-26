@@ -6,9 +6,9 @@ namespace PokerHandShowdown
 {
     public class PokerGameSession : IPokerGameSession
     {
-        List<Card> TokenCards = new List<Card>();
+        List<Card> _tokenCards = new List<Card>();
         public Dictionary<string, Player> Players { get; } = new Dictionary<string, Player>();
-        public List<string> Winners { get; private set; }
+        public List<string> Winners { get; private set; } = new List<string>();
 
         public void DetermineTheWinners()
         {
@@ -42,7 +42,7 @@ namespace PokerHandShowdown
         {
             AddPlayer(playerName);
             DispatchCardsToPlayer(playerName, cards);
-            TokenCards.AddRange(cards);
+            _tokenCards.AddRange(cards);
         }
 
         public void DispatchCardsToPlayer(string playerName, Card card)
@@ -58,14 +58,14 @@ namespace PokerHandShowdown
             }
             else
             {
-                if (TokenCards.Contains(card))
+                if (_tokenCards.Contains(card))
                 {
                     throw new InvalidOperationException("Invalid Card Added!");
                 }
                 var added = Players[playerName].Hand.AddCard(card.Suit, card.Rank);
                 if (added)
                 {
-                    TokenCards.Add(card);
+                    _tokenCards.Add(card);
                 }
                 else
                 {
@@ -93,7 +93,7 @@ namespace PokerHandShowdown
                 var added = Players[playerName].Hand.AddCards(cards);
                 if (added)
                 {
-                    TokenCards.AddRange(cards);
+                    _tokenCards.AddRange(cards);
                 }
                 else
                 {
@@ -109,7 +109,7 @@ namespace PokerHandShowdown
         /// <returns>true if duplicates present<otherwise>false.</otherwise></returns>
         private bool CheckForDuplicatesCards(Card[] cards)
         {
-            return TokenCards.Concat(cards)
+            return _tokenCards.Concat(cards)
                                 .GroupBy(x => x)
                                 .Any(g => g.Count() > 1);
         }
@@ -120,7 +120,7 @@ namespace PokerHandShowdown
         public void ClearSession()
         {
             Players.Clear();
-            TokenCards.Clear();
+            _tokenCards.Clear();
             Winners.Clear();
         }
 
@@ -151,7 +151,7 @@ namespace PokerHandShowdown
             {
                 player.Value.Hand.ClearHand();
             }
-            TokenCards.Clear();
+            _tokenCards.Clear();
             Winners.Clear();
         }
 

@@ -41,6 +41,7 @@ namespace PokerHandShowdownDemo
 
         private static void AddCardsMenu()
         {
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine("###| Please Select one of the following options. |###");
             Console.WriteLine("###| 1. Dispatch Single Card. |###");
@@ -93,6 +94,7 @@ namespace PokerHandShowdownDemo
 
         private static void AddPlayersMenu()
         {
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine("###| Please Select one of the following options. |###");
             Console.WriteLine("###| 1. Add Player. |###");
@@ -138,6 +140,7 @@ namespace PokerHandShowdownDemo
 
         private static void MainMenu()
         {
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine("###| Please Select one of the following options by pressing the number indicated and hit enter. |###");
             Console.WriteLine("###| 0. Show Cards to Determine the winner. |###");

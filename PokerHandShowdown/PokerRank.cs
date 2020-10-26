@@ -1,5 +1,8 @@
 ﻿namespace PokerHandShowdown
 {
+    /// <summary>
+    /// Poker rank enum.
+    /// </summary>
     public enum PokerRank
     {
         Two = 2,

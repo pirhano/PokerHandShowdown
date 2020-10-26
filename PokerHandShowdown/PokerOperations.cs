@@ -3,8 +3,16 @@ using System.Linq;
 
 namespace PokerHandShowdown
 {
+    /// <summary>
+    /// Class Operations to determin the winners.
+    /// </summary>
     public static class PokerOperations
     {
+        /// <summary>
+        /// Define the winners.
+        /// </summary>
+        /// <param name="players">dictionary of players.</param>
+        /// <returns>list of winners names.</returns>
         public static List<string> DefineTheWinners(Dictionary<string, Player> players)
         {
             var winnersList = new List<string>();
@@ -33,18 +41,28 @@ namespace PokerHandShowdown
             return winnersList;
         }
 
-        private static void CheckForThreeOfKindHand(Dictionary<string, Player> listOfWinningCards, List<string> winnersList)
+        /// <summary>
+        /// Check for any three of kind.
+        /// </summary>
+        /// <param name="players">palyers list.</param>
+        /// <param name="winnersList">winners list.</param>
+        private static void CheckForThreeOfKindHand(Dictionary<string, Player> players, List<string> winnersList)
         {
-            var listOfPlayersThreeOfKind = listOfWinningCards.Values.Where(p => p.Hand.SetType == SetType.ThreeOfKind).ToArray();
+            var listOfPlayersThreeOfKind = players.Values.Where(p => p.Hand.SetType == SetType.ThreeOfKind).ToArray();
             if (listOfPlayersThreeOfKind.Any())
             {
                 GetRankWinner(winnersList, listOfPlayersThreeOfKind);
             }
         }
 
-        private static void CheckForFlushHand(Dictionary<string, Player> listOfWinningCards, List<string> winnersList)
+        /// <summary>
+        /// Check for any flush.
+        /// </summary>
+        /// <param name="players">palyers list.</param>
+        /// <param name="winnersList">winners list.</param>
+        private static void CheckForFlushHand(Dictionary<string, Player> players, List<string> winnersList)
         {
-            var listPlayersFlush = listOfWinningCards.Values.Where(p => p.Hand.SetType == SetType.Flush).ToArray();
+            var listPlayersFlush = players.Values.Where(p => p.Hand.SetType == SetType.Flush).ToArray();
             if (listPlayersFlush.Any())
             {
                 if (listPlayersFlush.Length > 1)
@@ -67,6 +85,11 @@ namespace PokerHandShowdown
             }
         }
 
+        /// <summary>
+        /// Get winner from multiple winners list
+        /// </summary>
+        /// <param name="winnersList">winners list.</param>
+        /// <param name="listOfPlayersThreeOfKind">palyers array.</param>
         private static void GetRankWinner(List<string> winnersList, Player[] listOfPlayersThreeOfKind)
         {
             if (listOfPlayersThreeOfKind.Length > 1)

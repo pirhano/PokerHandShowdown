@@ -10,7 +10,7 @@ namespace PokerHandShowdown
         public Dictionary<string, Player> Players { get; } = new Dictionary<string, Player>();
         public List<string> Winners { get; private set; }
 
-        public void DetermineTheWinner()
+        public void DetermineTheWinners()
         {
             Winners = PokerOperations.DefineTheWinners(Players);
         }
@@ -28,6 +28,11 @@ namespace PokerHandShowdown
             Players.Add(playerName, new Player(playerName));
         }
 
+        /// <summary>
+        /// Check if Participant already exists.
+        /// </summary>
+        /// <param name="playerName">players name.</param>
+        /// <returns>true if found<otherwise>false</otherwise></returns>
         private bool PlayerExists(string playerName)
         {
             return Players.ContainsKey(playerName);
@@ -97,11 +102,57 @@ namespace PokerHandShowdown
             }
         }
 
+        /// <summary>
+        /// Check if there is any duplicate cards.
+        /// </summary>
+        /// <param name="cards">cards to check</param>
+        /// <returns>true if duplicates present<otherwise>false.</otherwise></returns>
         private bool CheckForDuplicatesCards(Card[] cards)
         {
             return TokenCards.Concat(cards)
                                 .GroupBy(x => x)
                                 .Any(g => g.Count() > 1);
+        }
+
+        /// <summary>
+        /// Clear session from players.
+        /// </summary>
+        public void ClearSession()
+        {
+            Players.Clear();
+            TokenCards.Clear();
+            Winners.Clear();
+        }
+
+        /// <summary>
+        /// Remove player from game session.
+        /// </summary>
+        /// <param name="playerName"></param>
+        public void RemoveParticipant(string playerName)
+        {
+            if (string.IsNullOrEmpty(playerName))
+            {
+                throw new InvalidOperationException("Invalid Entry");
+            }
+            if (!PlayerExists(playerName))
+            {
+                throw new NullReferenceException("Player doesnt exists");
+            }
+            Players.Remove(playerName);
+            EmptyHands();
+        }
+
+        /// <summary>
+        /// Empty participants hands.
+        /// </summary>
+        public void EmptyHands()
+        {
+            foreach (var player in Players)
+            {
+                player.Value.Hand.ClearHand();
+            }
+            TokenCards.Clear();
+            Winners.Clear();
         }
 
         public void PreparePlayersHands()

@@ -1,9 +1,18 @@
 ﻿using System;
 namespace PokerHandShowdown
 {
+    /// <summary>
+    /// Poker Card
+    /// </summary>
     public struct Card
     {
+        /// <summary>
+        /// Poker suit.
+        /// </summary>
         public PokerSuit Suit;
+        /// <summary>
+        /// Poker rank.
+        /// </summary>
         public PokerRank Rank;
 
         public Card(PokerSuit suit, PokerRank rank)

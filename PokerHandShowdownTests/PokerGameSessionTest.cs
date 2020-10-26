@@ -255,7 +255,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Flush_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.First().Should().Be("amber");
         }
@@ -265,7 +265,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Flush_Score_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.First().Should().Be("amber");
         }
@@ -275,7 +275,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Flush_Tie_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(2);
             _pokerGameSession.Winners.Should().Contain("amber");
@@ -287,7 +287,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_ThreeOfKind_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("hicham");
@@ -298,7 +298,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_ThreeOfKind_Score_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("kid");
@@ -309,7 +309,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Pair_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("kid");
@@ -320,7 +320,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Pair_Score_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("hicham");
@@ -331,7 +331,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Score_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(1);
             _pokerGameSession.Winners.First().Should().Be("amber");
@@ -342,7 +342,7 @@ namespace PokerHandShowdownTests
         {
             ProcessGameSession_Success_Score_Tie_Data();
 
-            _pokerGameSession.DetermineTheWinner();
+            _pokerGameSession.DetermineTheWinners();
 
             _pokerGameSession.Winners.Count().Should().Be(2);
             _pokerGameSession.Winners.Should().Contain("amber");

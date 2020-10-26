@@ -60,9 +60,28 @@ namespace PokerHandShowdownDemo
                     Console.WriteLine("###| Please Enter player participant name: |###");
                     var playerName = Console.ReadLine().ToString();
                     pokerGameSession.DispatchCardsToPlayer(playerName, card);
+                    Console.WriteLine($"||({card.Rank},{card.Suit}) added!||");
+
                     AddCardsMenu();
                     break;
                 case "2":
+                    DisplayDeck();
+                    Console.WriteLine("###| Please Pick from the Deck above up to 5 indexes of cards to add.\r\n press enter after each index, when you finish press * |###");
+                    var playerCards = new List<Card>();
+                    for (var i = 0; i < 5; i++)
+                    {
+                        var index1 = Console.ReadLine().ToString();
+                        if (index1.Equals("*"))
+                        {
+                            break;
+                        }
+                        playerCards.Add(cards[int.Parse(index1)]);
+                    }
+                    Console.WriteLine("###| Please Enter Participant's name. |###");
+                    var playerName1 = Console.ReadLine().ToString();
+                    Console.WriteLine();
+                    pokerGameSession.DispatchCardsToPlayer(playerName1, playerCards.ToArray());
+                    Console.WriteLine($"||({playerCards.Count}) cards added! || ");
                     AddCardsMenu();
                     break;
                 case "3":
@@ -95,9 +114,9 @@ namespace PokerHandShowdownDemo
                     var playerName1 = Console.ReadLine().ToString();
                     Console.WriteLine();
                     DisplayDeck();
-                    Console.WriteLine("###| Please Pick from the Deck above up to 5 indexs of cards to add.\r\n press enter after each index, when you finish press * |###");
+                    Console.WriteLine("###| Please Pick from the Deck above up to 5 indexes of cards to add.\r\n press enter after each index, when you finish press * |###");
                     var playerCards = new List<Card>();
-                    for(var i = 0; i > 5; i++)
+                    for(var i = 0; i < 5; i++)
                     {
                         var index = Console.ReadLine().ToString();
                         if (index.Equals("*"))
@@ -133,6 +152,7 @@ namespace PokerHandShowdownDemo
             {
                 case "0":
                     ProcessGameSession();
+                    MainMenu();
                     break;
                 case "1":
                     AddPlayersMenu();
@@ -174,7 +194,13 @@ namespace PokerHandShowdownDemo
 
         private static void ProcessGameSession()
         {
-            throw new NotImplementedException();
+            pokerGameSession.PreparePlayersHands();
+            pokerGameSession.DetermineTheWinners();
+            foreach(var winner in pokerGameSession.Winners)
+            {
+                Console.WriteLine($"Winner : {winner}");
+            }
+            Console.WriteLine();
         }
     }
 }
